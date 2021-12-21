@@ -1,5 +1,6 @@
 import curses
 from curses import wrapper
+from essential_generators import DocumentGenerator
 import time
 import random
 
@@ -12,7 +13,13 @@ def start_screen(stdscr):
     stdscr.getkey()
 
 
-def load_text():
+# slower but unique
+def load_random_text():
+    gen = DocumentGenerator()
+    return gen.sentence()
+
+
+def load_text_from_file():
     with open("text.txt", "r") as f:
         lines = f.readlines()
         return random.choice(lines).strip()
@@ -33,7 +40,8 @@ def display_text(stdscr, target_text, current_text, wpm=0):
 
 
 def wpm_test(stdscr):
-    target_text = load_text()
+    target_text = load_text_from_file()
+    # target_text = load_random_text
     current_text = []
     wpm = 0
     start_time = time.time()
